@@ -9,7 +9,7 @@ const { ProductController } = require('../../../src/controllers');
 const { ProductService } = require('../../../src/services');
 const findAllProduct = require('../mock/findAllProduct.mock');
 const mockNewProduct = require('../mock/newProduct.mock');
-const validatedProduct = require('../../../src/middlewares/validatedProduct');
+const { validatedProductName } = require('../../../src/middlewares/validatedProduct');
 
 describe('Testa o controller do product', () => {
   afterEach(() => {
@@ -108,7 +108,7 @@ describe('Testa o controller do product', () => {
           json: sinon.stub(),
         };
 
-        await validatedProduct(req, res);
+        await validatedProductName(req, res);
         expect(res.status).to.have.been.calledWith(400);
         expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
       });
@@ -124,7 +124,7 @@ describe('Testa o controller do product', () => {
           json: sinon.stub(),
         };
 
-        await validatedProduct(req, res);
+        await validatedProductName(req, res);
         expect(res.status).to.have.been.calledWith(422);
         expect(res.json).to.have.been.calledWith({
           message: '"name" length must be at least 5 characters long',
