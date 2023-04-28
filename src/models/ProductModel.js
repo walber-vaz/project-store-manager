@@ -17,6 +17,10 @@ class ProductModel {
     );
     return insertId;
   }
+
+  static async updateProduct(id, name) {
+    await connection.execute('UPDATE products SET name = ? WHERE id = ?;', [name, id]);
+  }
 }
 
 module.exports = ProductModel;

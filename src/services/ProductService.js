@@ -15,6 +15,10 @@ class ProductService {
     const product = await ProductModel.createProduct(name);
     return product;
   }
+
+  static async updateProduct(id, name) {
+    await ProductModel.updateProduct(id, name);
+  }
 }
 
 module.exports = ProductService;
