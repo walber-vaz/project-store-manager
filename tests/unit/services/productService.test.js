@@ -7,6 +7,7 @@ chai.use(sinonChai);
 const findAllProduct = require('../mock/findAllProduct.mock');
 const { productModel } = require('../../../src/models');
 const { productService } = require('../../../src/services');
+const mockNewProduct = require('../mock/newProduct.mock');
 
 describe('Testa o service do product', () => {
   afterEach(async () => {
@@ -44,6 +45,18 @@ describe('Testa o service do product', () => {
       expect(productModel.getProductById).to.be.calledOnce;
       expect(productModel.getProductById).to.be.calledWith(1000);
       expect(result).to.be.equal(undefined);
+    });
+  });
+
+  describe('Testa o service create', () => {
+    it('cria um novo produto', async () => {
+      sinon.stub(productModel, 'createProduct').resolves(mockNewProduct.id);
+
+      const result = await productService.createProduct(mockNewProduct.name);
+
+      expect(productModel.createProduct).to.be.calledOnce;
+      expect(productModel.createProduct).to.be.calledWith(mockNewProduct.name);
+      expect(result).to.be.eql(mockNewProduct.id);
     });
   });
 });

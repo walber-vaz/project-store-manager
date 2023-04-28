@@ -7,6 +7,8 @@ chai.use(sinonChai);
 const { productController } = require('../../../src/controllers');
 const { productService } = require('../../../src/services');
 const findAllProduct = require('../mock/findAllProduct.mock');
+const mockNewProduct = require('../mock/newProduct.mock');
+const validatedProduct = require('../../../src/middlewares/validatedProduct');
 
 describe('Testa o controller do product', () => {
   afterEach(() => {
@@ -68,6 +70,59 @@ describe('Testa o controller do product', () => {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({
         message: 'Product not found',
+      });
+    });
+
+    describe('Testa o controller insert', () => {
+      it('insere um novo produto', async () => {
+        const req = {
+          body: {
+            name: mockNewProduct.name,
+          },
+        };
+        const res = {
+          status: sinon.stub().returnsThis(),
+          json: sinon.stub(),
+        };
+
+        sinon.stub(productService, 'createProduct').resolves(mockNewProduct.id);
+
+        await productController.insert(req, res);
+
+        expect(res.status).to.have.been.calledWith(201);
+        expect(res.json).to.have.been.calledWith(mockNewProduct);
+      });
+
+      it('retorna uma mensagem de erro quando o nome do produto é inválido', async () => {
+        const req = {
+          body: {},
+        };
+        const res = {
+          status: sinon.stub().returnsThis(),
+          json: sinon.stub(),
+        };
+
+        await validatedProduct(req, res);
+        expect(res.status).to.have.been.calledWith(400);
+        expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+      });
+
+      it('retorna uma mensagem de erro quando o nome do produto é menor que 5 caracteres', async () => {
+        const req = {
+          body: {
+            name: 'x',
+          },
+        };
+        const res = {
+          status: sinon.stub().returnsThis(),
+          json: sinon.stub(),
+        };
+
+        await validatedProduct(req, res);
+        expect(res.status).to.have.been.calledWith(422);
+        expect(res.json).to.have.been.calledWith({
+          message: '"name" length must be at least 5 characters long',
+        });
       });
     });
   });

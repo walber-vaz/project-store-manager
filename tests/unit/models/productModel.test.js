@@ -7,6 +7,7 @@ chai.use(sinonChai);
 const findAllProduct = require('../mock/findAllProduct.mock');
 const { productModel } = require('../../../src/models');
 const connection = require('../../../src/db/connection');
+const mockNewProduct = require('../mock/newProduct.mock');
 
 describe('Testa o model do product', () => {
   afterEach(async () => {
@@ -44,6 +45,21 @@ describe('Testa o model do product', () => {
       expect(connection.execute).to.be.calledOnce;
       expect(connection.execute).to.be.calledWith('SELECT * FROM products WHERE id = ?;', [1000]);
       expect(result).to.be.equal(undefined);
+    });
+  });
+
+  describe('Testa o model create', () => {
+    it('cria um novo produto', async () => {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+
+      const result = await productModel.createProduct(mockNewProduct.name);
+
+      expect(connection.execute).to.be.calledOnce;
+      expect(connection.execute).to.be.calledWith(
+        'INSERT INTO products (name) VALUES (?);',
+        [mockNewProduct.name],
+      );
+      expect(result).to.be.equal(4);
     });
   });
 });
