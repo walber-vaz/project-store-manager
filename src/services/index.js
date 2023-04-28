@@ -1,7 +1,7 @@
 const ProductService = require('./ProductService');
-const saleService = require('./saleService');
+const SaleService = require('./SaleService');
 
 module.exports = {
   ProductService,
-  saleService,
+  SaleService,
 };

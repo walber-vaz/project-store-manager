@@ -5,8 +5,8 @@ const sinonChai = require('sinon-chai');
 const { expect } = chai;
 chai.use(sinonChai);
 
-const { saleController } = require('../../../src/controllers');
-const { saleService } = require('../../../src/services');
+const { SaleController } = require('../../../src/controllers');
+const { SaleService } = require('../../../src/services');
 const { mockAllSales, mockSaveResultSale, mockTemplateSale } = require('../mock/salesMock.mock');
 
 describe('Testa o controller do sale', () => {
@@ -22,9 +22,9 @@ describe('Testa o controller do sale', () => {
         json: sinon.stub(),
       };
 
-      sinon.stub(saleService, 'getAllSales').resolves(mockAllSales);
+      sinon.stub(SaleService, 'getAllSales').resolves(mockAllSales);
 
-      await saleController.findAll(req, res);
+      await SaleController.findAll(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(mockAllSales);
@@ -43,12 +43,15 @@ describe('Testa o controller do sale', () => {
         json: sinon.stub(),
       };
 
-      sinon.stub(saleService, 'getSaleById').resolves(mockAllSales[0]);
+      const next = sinon.stub();
 
-      await saleController.findById(req, res);
+      sinon.stub(SaleService, 'getSaleById').resolves(mockAllSales[0]);
+
+      await SaleController.findById(req, res, next);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(mockAllSales[0]);
+      expect(next).to.not.be.called;
     });
 
     it('retorna uma mesagem de erro quando o sale não é encontrado', async () => {
@@ -62,12 +65,16 @@ describe('Testa o controller do sale', () => {
         json: sinon.stub(),
       };
 
-      sinon.stub(saleService, 'getSaleById').resolves(undefined);
+      const next = sinon.stub();
 
-      await saleController.findById(req, res);
+      sinon.stub(SaleService, 'getSaleById').resolves(undefined);
 
-      expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith({ message: 'Sale not found' });
+      await SaleController.findById(req, res, next);
+
+      expect(next).to.be.calledWith({
+        status: 404,
+        message: 'Sale not found',
+      });
     });
   });
 
@@ -81,9 +88,9 @@ describe('Testa o controller do sale', () => {
         json: sinon.stub().returns(),
       };
 
-      sinon.stub(saleService, 'createSale').resolves(4);
+      sinon.stub(SaleService, 'createSale').resolves(4);
 
-      await saleController.insert(req, res);
+      await SaleController.insert(req, res);
 
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith(mockSaveResultSale);

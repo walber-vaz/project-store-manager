@@ -1,5 +1,5 @@
 const express = require('express');
-const { ProductRouter, saleRouter } = require('./routes');
+const { ProductRouter, SaleRouter } = require('./routes');
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/products', ProductRouter);
-app.use('/sales', saleRouter);
+app.use('/sales', SaleRouter);
 
 app.use((err, _req, res, _next) => res.status(err.status).json({ message: err.message }));
 
