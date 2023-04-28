@@ -45,49 +45,17 @@ $ npm run dev
 
 ## Rotas
 
-### Produtos
-
-#### GET /products
-
-Retorna todos os produtos cadastrados.
-
-#### GET /products/:id
-
-Retorna um produto específico.
-
-#### POST /products
-
-Cadastra um novo produto.
-
-#### PUT /products/:id
-
-Atualiza um produto específico.
-
-#### DELETE /products/:id
-
-Deleta um produto específico.
-
-### /sales
-
-#### GET /sales
-
-Retorna todas as vendas cadastradas.
-
-#### GET /sales/:id
-
-Retorna uma venda específica.
-
-#### POST /sales
-
-Cadastra uma nova venda.
-
-#### PUT /sales/:id
-
-Atualiza uma venda específica.
-
-#### DELETE /sales/:id
-
-Deleta uma venda específica.
+| ROTAS              	| METHOD 	| DESCRIPTION        	|
+|--------------------	|--------	|--------------------	|
+| /products          	| GET    	| List all products  	|
+| /products/search?q 	| GET    	| Search product     	|
+| /products/:id      	| PUT    	| Update one product 	|
+| /products/:id      	| GET    	| List one product   	|
+| /products/:id      	| DELETE 	| Delete one product 	|
+| /sales             	| GET    	| List all sales     	|
+| /sales/:id         	| GET    	| List one sale      	|
+| /sales/:id         	| PUT    	| Update one sale    	|
+| /sales/:id         	| DELETE 	| Delete one sale    	|
 
 ## Documentação
 
