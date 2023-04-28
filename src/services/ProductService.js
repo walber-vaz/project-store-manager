@@ -23,6 +23,11 @@ class ProductService {
   static async deleteProduct(id) {
     await ProductModel.deleteProduct(id);
   }
+
+  static async findProductByName(name) {
+    const product = await ProductModel.getAllProducts(name);
+    return product.filter((item) => item.name.includes(name));
+  }
 }
 
 module.exports = ProductService;

@@ -45,6 +45,12 @@ class ProductController {
     await ProductService.deleteProduct(id);
     return res.status(204).end();
   }
+
+  static async findByName(req, res) {
+    const { q } = req.query;
+    const products = await ProductService.findProductByName(q);
+    return res.status(200).json(products);
+  }
 }
 
 module.exports = ProductController;
