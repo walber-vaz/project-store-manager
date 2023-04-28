@@ -24,6 +24,16 @@ class SaleProductModel {
     );
     return sale;
   }
+
+  static async updateProductSale(productId, quantity, saleId) {
+    const update = await connection.execute(
+    'UPDATE sales_products SET product_id = ?, quantity = ? WHERE product_id = ? AND sale_id = ?;',
+    [productId, quantity, productId, saleId],
+    );
+
+    const [{ insertId }] = update;
+    return insertId;
+  }
 }
 
 module.exports = SaleProductModel;

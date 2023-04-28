@@ -40,6 +40,17 @@ class SaleService {
     return saleId;
   }
 
+  static async updateSale(id, products) {
+    const promises = products
+      .map(({
+        productId,
+        quantity,
+      }) => SaleProductModel.updateProductSale(productId, quantity, id));
+
+    await Promise.all(promises);
+    return true;
+  }
+
   static async deleteSale(id) {
     await SaleModel.deleteSale(id);
   }

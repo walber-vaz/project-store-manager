@@ -30,6 +30,25 @@ class SaleController {
     return res.status(201).json(newSaleObj);
   }
 
+  static async update(req, res, next) {
+    const { id } = req.params;
+    const sale = await SaleService.getSaleById(id);
+
+    if (!sale) {
+      return next({ status: 404, message: 'Sale not found' });
+    }
+
+    const { body } = req;
+    await SaleService.updateSale(id, body);
+
+    const updatedSale = {
+      saleId: id,
+      itemsUpdated: [...body],
+    };
+
+    return res.status(200).json(updatedSale);
+  }
+
   static async delete(req, res, next) {
     const { id } = req.params;
     const sale = await SaleService.getSaleById(id);

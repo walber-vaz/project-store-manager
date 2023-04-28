@@ -16,6 +16,11 @@ class SaleRouter {
       SaleController.insert);
     this.router.get('/', SaleController.findAll);
     this.router.get('/:id', SaleController.findById);
+    this.router.put('/:id',
+      validateSaleNameProduct,
+      validateQuantity,
+      validateProductSale,
+      SaleController.update);
     this.router.delete('/:id', SaleController.delete);
   }
 }
