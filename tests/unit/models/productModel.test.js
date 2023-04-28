@@ -6,7 +6,7 @@ const { expect } = chai;
 chai.use(sinonChai);
 
 const findAllProduct = require('../mock/findAllProduct.mock');
-const { productModel } = require('../../../src/models');
+const { ProductModel } = require('../../../src/models');
 const connection = require('../../../src/db/connection');
 const mockNewProduct = require('../mock/newProduct.mock');
 
@@ -19,7 +19,7 @@ describe('Testa o model do product', () => {
     it('retorna todos os produtos', async () => {
       sinon.stub(connection, 'execute').resolves([findAllProduct]);
 
-      const result = await productModel.getAllProducts();
+      const result = await ProductModel.getAllProducts();
 
       expect(connection.execute).to.be.calledOnce;
       expect(connection.execute).to.be.calledWith('SELECT * FROM products;');
@@ -31,7 +31,7 @@ describe('Testa o model do product', () => {
     it('retorna um produto pelo id passado', async () => {
       sinon.stub(connection, 'execute').resolves([[findAllProduct[0]]]);
 
-      const result = await productModel.getProductById(1);
+      const result = await ProductModel.getProductById(1);
 
       expect(connection.execute).to.be.calledOnce;
       expect(connection.execute).to.be.calledWith('SELECT * FROM products WHERE id = ?;', [1]);
@@ -41,7 +41,7 @@ describe('Testa o model do product', () => {
     it('retorna uma mesagem de erro quando o produto não é encontrado', async () => {
       sinon.stub(connection, 'execute').resolves([[]]);
 
-      const result = await productModel.getProductById(1000);
+      const result = await ProductModel.getProductById(1000);
 
       expect(connection.execute).to.be.calledOnce;
       expect(connection.execute).to.be.calledWith('SELECT * FROM products WHERE id = ?;', [1000]);
@@ -53,7 +53,7 @@ describe('Testa o model do product', () => {
     it('cria um novo produto', async () => {
       sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
 
-      const result = await productModel.createProduct(mockNewProduct.name);
+      const result = await ProductModel.createProduct(mockNewProduct.name);
 
       expect(connection.execute).to.be.calledOnce;
       expect(connection.execute).to.be.calledWith(

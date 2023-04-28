@@ -5,8 +5,8 @@ const sinonChai = require('sinon-chai');
 const { expect } = chai;
 chai.use(sinonChai);
 
-const { productController } = require('../../../src/controllers');
-const { productService } = require('../../../src/services');
+const { ProductController } = require('../../../src/controllers');
+const { ProductService } = require('../../../src/services');
 const findAllProduct = require('../mock/findAllProduct.mock');
 const mockNewProduct = require('../mock/newProduct.mock');
 const validatedProduct = require('../../../src/middlewares/validatedProduct');
@@ -24,9 +24,9 @@ describe('Testa o controller do product', () => {
         json: sinon.stub(),
       };
 
-      sinon.stub(productService, 'findAllProducts').resolves(findAllProduct);
+      sinon.stub(ProductService, 'findAllProducts').resolves(findAllProduct);
 
-      await productController.findAll(req, res);
+      await ProductController.findAll(req, res);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(findAllProduct);
@@ -45,12 +45,15 @@ describe('Testa o controller do product', () => {
         json: sinon.stub(),
       };
 
-      sinon.stub(productService, 'findProductById').resolves(findAllProduct[0]);
+      const next = sinon.stub();
 
-      await productController.findById(req, res);
+      sinon.stub(ProductService, 'findProductById').resolves(findAllProduct[0]);
+
+      await ProductController.findById(req, res, next);
 
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(findAllProduct[0]);
+      expect(next).to.not.be.called;
     });
 
     it('retorna uma mesagem de erro quando o produto não é encontrado', async () => {
@@ -64,12 +67,14 @@ describe('Testa o controller do product', () => {
         json: sinon.stub(),
       };
 
-      sinon.stub(productService, 'findProductById').resolves(undefined);
+      const next = sinon.stub();
 
-      await productController.findById(req, res);
+      sinon.stub(ProductService, 'findProductById').resolves(undefined);
 
-      expect(res.status).to.have.been.calledWith(404);
-      expect(res.json).to.have.been.calledWith({
+      await ProductController.findById(req, res, next);
+
+      expect(next).to.be.calledWith({
+        status: 404,
         message: 'Product not found',
       });
     });
@@ -86,9 +91,9 @@ describe('Testa o controller do product', () => {
           json: sinon.stub(),
         };
 
-        sinon.stub(productService, 'createProduct').resolves(mockNewProduct.id);
+        sinon.stub(ProductService, 'createProduct').resolves(mockNewProduct.id);
 
-        await productController.insert(req, res);
+        await ProductController.insert(req, res);
 
         expect(res.status).to.have.been.calledWith(201);
         expect(res.json).to.have.been.calledWith(mockNewProduct);

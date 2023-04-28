@@ -1,4 +1,4 @@
-const { productService } = require('../services');
+const { ProductService } = require('../services');
 
 const validateSaleNameProduct = (req, res, next) => {
   const sale = req.body;
@@ -13,7 +13,7 @@ const validateSaleNameProduct = (req, res, next) => {
 
 const validateProductSale = async (req, res, next) => {
   const sale = req.body;
-  const allProducts = await productService.findAllProducts();
+  const allProducts = await ProductService.findAllProducts();
 
   const isValid = sale.some((item) => {
     const product = allProducts.find((index) => index.id === item.productId);
