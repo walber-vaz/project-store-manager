@@ -1,0 +1,159 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Storage Manage",
+    "description": "API created for the storage management product",
+    "contact": {
+      "email": "wvs.walber@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "Dev Server"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "Lista todos os produto cadastrados",
+        "description": "Essa rota e responsavel por listar todos os produtos cadastrados",
+        "tags": [
+          "Products"
+        ],
+        "responses":{
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Products"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Lista um produto cadastrado",
+        "description": "Essa rota e responsavel por listar um produto cadastrado",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Products"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductNotFound"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza um produto cadastrado",
+        "description": "Essa rota e responsavel por atualizar um produto cadastrado",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objeto com os dados do produto",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Products"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Products"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductNotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Products": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Id do produto"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do produto"
+          }
+        }
+      },
+      "ProductNotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Product not found"
+          }
+        }
+      }
+    }
+  }
+}
