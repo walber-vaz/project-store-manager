@@ -16,6 +16,7 @@ class SaleRouter {
       SaleController.insert);
     this.router.get('/', SaleController.findAll);
     this.router.get('/:id', SaleController.findById);
+    this.router.delete('/:id', SaleController.delete);
   }
 }
 

@@ -29,6 +29,18 @@ class SaleController {
 
     return res.status(201).json(newSaleObj);
   }
+
+  static async delete(req, res, next) {
+    const { id } = req.params;
+    const sale = await SaleService.getSaleById(id);
+
+    if (!id || !sale) {
+      return next({ status: 404, message: 'Sale not found' });
+    }
+
+    await SaleService.deleteSale(id);
+    return res.status(204).end();
+  }
 }
 
 module.exports = SaleController;

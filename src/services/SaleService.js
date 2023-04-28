@@ -39,6 +39,10 @@ class SaleService {
     await Promise.all(promises);
     return saleId;
   }
+
+  static async deleteSale(id) {
+    await SaleModel.deleteSale(id);
+  }
 }
 
 module.exports = SaleService;

@@ -21,6 +21,10 @@ class SaleModel {
     );
     return insertId;
   }
+
+  static async deleteSale(id) {
+    await connection.execute('DELETE FROM sales WHERE id = ?;', [id]);
+  }
 }
 
 module.exports = SaleModel;
