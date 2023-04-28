@@ -33,6 +33,18 @@ class ProductController {
     await ProductService.updateProduct(id, name);
     return res.status(200).json({ id, name });
   }
+
+  static async delete(req, res, next) {
+    const { id } = req.params;
+    const product = await ProductService.findProductById(id);
+
+    if (!id || !product) {
+      return next({ status: 404, message: 'Product not found' });
+    }
+
+    await ProductService.deleteProduct(id);
+    return res.status(204).end();
+  }
 }
 
 module.exports = ProductController;

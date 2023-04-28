@@ -21,6 +21,10 @@ class ProductModel {
   static async updateProduct(id, name) {
     await connection.execute('UPDATE products SET name = ? WHERE id = ?;', [name, id]);
   }
+
+  static async deleteProduct(id) {
+    await connection.execute('DELETE FROM products WHERE id = ?;', [id]);
+  }
 }
 
 module.exports = ProductModel;

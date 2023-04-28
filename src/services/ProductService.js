@@ -19,6 +19,10 @@ class ProductService {
   static async updateProduct(id, name) {
     await ProductModel.updateProduct(id, name);
   }
+
+  static async deleteProduct(id) {
+    await ProductModel.deleteProduct(id);
+  }
 }
 
 module.exports = ProductService;
