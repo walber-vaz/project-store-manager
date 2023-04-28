@@ -47,11 +47,13 @@ $ npm run dev
 
 | ROTAS              	| METHOD 	| DESCRIPTION        	|
 |--------------------	|--------	|--------------------	|
+| /products          	| POST   	| Create one product 	|
 | /products          	| GET    	| List all products  	|
 | /products/search?q 	| GET    	| Search product     	|
 | /products/:id      	| PUT    	| Update one product 	|
 | /products/:id      	| GET    	| List one product   	|
 | /products/:id      	| DELETE 	| Delete one product 	|
+| /sales             	| POST   	| Create one sale    	|
 | /sales             	| GET    	| List all sales     	|
 | /sales/:id         	| GET    	| List one sale      	|
 | /sales/:id         	| PUT    	| Update one sale    	|
