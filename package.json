@@ -8,14 +8,12 @@
     "npm": ">=7.0.0"
   },
   "scripts": {
-    "test": "jest --config ./jest.config.js --runInBand",
-    "test:mocha": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
+    "test": "mocha tests/unit/**/*.js --exit",
+    "test:coverage": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
     "start": "node src/server.js",
     "dev": "nodemon --ignore coverage --inspect=0.0.0.0:9229 src/server.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx && prettier --check .",
-    "lint:fix": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx --fix && prettier --write .",
-    "migration": "node -e \"require('./__tests__/_utils').runMigration()\"",
-    "seed": "node -e \"require('./__tests__/_utils').runSeed()\""
+    "lint:fix": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx --fix && prettier --write ."
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   # Serviço que irá rodar o node
@@ -37,7 +37,7 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: password
       MYSQL_HOST: db # Nome do service logo abaixo
-      PORT: "3001"
+      PORT: '3001'
       HOST: store_manager
     networks:
       # Conecta esse serviço com a rede que criada
@@ -48,7 +48,7 @@ services:
     container_name: store_manager_db
     image: mysql:8.0.32
     environment:
-      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: 'password'
     ports:
       # Garanta que não haverá conflitos de porta com um banco que esteja
       # rodando localmente
@@ -57,7 +57,7 @@ services:
       # Conecta esse serviço com a rede que criada
       - store_manager_net
     volumes:
-      - ./migration.sql:/docker-entrypoint-initdb.d/migration.sql
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
 
 # Lista de redes que os containeres irão utilizar
 networks:
