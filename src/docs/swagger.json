@@ -19,10 +19,8 @@
       "get": {
         "summary": "Lista todos os produto cadastrados",
         "description": "Essa rota e responsavel por listar todos os produtos cadastrados",
-        "tags": [
-          "Products"
-        ],
-        "responses":{
+        "tags": ["Products"],
+        "responses": {
           "200": {
             "description": "Sucesso",
             "content": {
@@ -40,9 +38,7 @@
       "get": {
         "summary": "Lista um produto cadastrado",
         "description": "Essa rota e responsavel por listar um produto cadastrado",
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "parameters": [
           {
             "name": "id",
@@ -80,9 +76,7 @@
       "put": {
         "summary": "Atualiza um produto cadastrado",
         "description": "Essa rota e responsavel por atualizar um produto cadastrado",
-        "tags": [
-          "Products"
-        ],
+        "tags": ["Products"],
         "parameters": [
           {
             "name": "id",

@@ -1,9 +1,26 @@
 {
+  "root": true,
   "env": {
-    "es2020": true
+    "commonjs": true,
+    "es2021": true,
+    "node": true
   },
-  "extends": "trybe-backend",
+  "extends": ["airbnb-base", "prettier"],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "plugins": ["prettier"],
   "rules": {
-    "sonarjs/no-duplicate-string": ["error", 5]
+    "prettier/prettier": "error",
+    "max-len": [
+      "error",
+      {
+        "code": 80
+      }
+    ],
+    "no-console": "off",
+    "no-unused-vars": "off",
+    "consistent-return": "off"
   }
 }

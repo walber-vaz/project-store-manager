@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const { SaleModel, SaleProductModel } = require('../models');
 
 class SaleService {
@@ -5,8 +6,8 @@ class SaleService {
     const sales = await SaleModel.getAllSales();
     const salesProducts = await SaleProductModel.getAllSales();
 
-    return salesProducts.map((product) => {
-      const sale = sales.find((item) => item.saleId === product.saleId);
+    return salesProducts.map(product => {
+      const sale = sales.find(item => item.saleId === product.saleId);
       return {
         ...product,
         date: sale.date,
@@ -20,10 +21,12 @@ class SaleService {
 
     if (!sale) return;
 
-    const updatedProducts = products.map((product) => ({
+    const updatedProducts = products
+      .map(product => ({
         ...product,
         date: sale.date,
-      })).map(({ saleId, ...product }) => product);
+      }))
+      .map(({ saleId, ...product }) => product);
 
     return updatedProducts;
   }
@@ -32,20 +35,18 @@ class SaleService {
     const date = new Date();
     const saleId = await SaleModel.createSale(date);
 
-    const promises = products
-      .map(({ productId, quantity }) =>
-        SaleProductModel.createProductSale(productId, saleId, quantity));
+    const promises = products.map(({ productId, quantity }) =>
+      SaleProductModel.createProductSale(productId, saleId, quantity),
+    );
 
     await Promise.all(promises);
     return saleId;
   }
 
   static async updateSale(id, products) {
-    const promises = products
-      .map(({
-        productId,
-        quantity,
-      }) => SaleProductModel.updateProductSale(productId, quantity, id));
+    const promises = products.map(({ productId, quantity }) =>
+      SaleProductModel.updateProductSale(productId, quantity, id),
+    );
 
     await Promise.all(promises);
     return true;

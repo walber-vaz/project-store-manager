@@ -1,23 +1,23 @@
-const chai = require('chai');
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
+const chai = require("chai");
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
 
 const { expect } = chai;
 chai.use(sinonChai);
 
-const findAllProduct = require('../mock/findAllProduct.mock');
-const { ProductModel } = require('../../../src/models');
-const { ProductService } = require('../../../src/services');
-const mockNewProduct = require('../mock/newProduct.mock');
+const findAllProduct = require("../mock/findAllProduct.mock");
+const { ProductModel } = require("../../../src/models");
+const { ProductService } = require("../../../src/services");
+const mockNewProduct = require("../mock/newProduct.mock");
 
-describe('Testa o service do product', () => {
+describe("Testa o service do product", () => {
   afterEach(async () => {
     sinon.restore();
   });
 
-  describe('Testa o service findAll', () => {
-    it('retorna todos os produtos', async () => {
-      sinon.stub(ProductModel, 'getAllProducts').resolves(findAllProduct);
+  describe("Testa o service findAll", () => {
+    it("retorna todos os produtos", async () => {
+      sinon.stub(ProductModel, "getAllProducts").resolves(findAllProduct);
 
       const result = await ProductService.findAllProducts();
 
@@ -27,9 +27,9 @@ describe('Testa o service do product', () => {
     });
   });
 
-  describe('Testa o service findById', () => {
-    it('retorna um produto pelo id passado', async () => {
-      sinon.stub(ProductModel, 'getProductById').resolves(findAllProduct[0]);
+  describe("Testa o service findById", () => {
+    it("retorna um produto pelo id passado", async () => {
+      sinon.stub(ProductModel, "getProductById").resolves(findAllProduct[0]);
 
       const result = await ProductService.findProductById(1);
 
@@ -38,8 +38,8 @@ describe('Testa o service do product', () => {
       expect(result).to.be.equal(findAllProduct[0]);
     });
 
-    it('retorna uma mesagem de erro quando o produto não é encontrado', async () => {
-      sinon.stub(ProductModel, 'getProductById').resolves(undefined);
+    it("retorna uma mesagem de erro quando o produto não é encontrado", async () => {
+      sinon.stub(ProductModel, "getProductById").resolves(undefined);
 
       const result = await ProductService.findProductById(1000);
 
@@ -49,9 +49,9 @@ describe('Testa o service do product', () => {
     });
   });
 
-  describe('Testa o service create', () => {
-    it('cria um novo produto', async () => {
-      sinon.stub(ProductModel, 'createProduct').resolves(mockNewProduct.id);
+  describe("Testa o service create", () => {
+    it("cria um novo produto", async () => {
+      sinon.stub(ProductModel, "createProduct").resolves(mockNewProduct.id);
 
       const result = await ProductService.createProduct(mockNewProduct.name);
 

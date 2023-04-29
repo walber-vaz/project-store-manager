@@ -9,18 +9,22 @@ const {
 class SaleRouter {
   constructor() {
     this.router = Router();
-    this.router.post('/',
+    this.router.post(
+      '/',
       validateSaleNameProduct,
       validateQuantity,
       validateProductSale,
-      SaleController.insert);
+      SaleController.insert,
+    );
     this.router.get('/', SaleController.findAll);
     this.router.get('/:id', SaleController.findById);
-    this.router.put('/:id',
+    this.router.put(
+      '/:id',
       validateSaleNameProduct,
       validateQuantity,
       validateProductSale,
-      SaleController.update);
+      SaleController.update,
+    );
     this.router.delete('/:id', SaleController.delete);
   }
 }

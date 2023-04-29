@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const { ProductController } = require('../controllers');
-const { validatedProductName, validatedProductParams } = require('../middlewares/validatedProduct');
+const {
+  validatedProductName,
+  validatedProductParams,
+} = require('../middlewares/validatedProduct');
 
 class ProductRoute {
   constructor() {

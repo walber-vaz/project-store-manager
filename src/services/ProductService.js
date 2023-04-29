@@ -26,7 +26,7 @@ class ProductService {
 
   static async findProductByName(name) {
     const product = await ProductModel.getAllProducts(name);
-    return product.filter((item) => item.name.includes(name));
+    return product.filter(item => item.name.includes(name));
   }
 }
 

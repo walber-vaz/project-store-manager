@@ -1,30 +1,32 @@
-const chai = require('chai');
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
+const chai = require("chai");
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
 
 const { expect } = chai;
 chai.use(sinonChai);
 
-const { ProductController } = require('../../../src/controllers');
-const { ProductService } = require('../../../src/services');
-const findAllProduct = require('../mock/findAllProduct.mock');
-const mockNewProduct = require('../mock/newProduct.mock');
-const { validatedProductName } = require('../../../src/middlewares/validatedProduct');
+const { ProductController } = require("../../../src/controllers");
+const { ProductService } = require("../../../src/services");
+const findAllProduct = require("../mock/findAllProduct.mock");
+const mockNewProduct = require("../mock/newProduct.mock");
+const {
+  validatedProductName,
+} = require("../../../src/middlewares/validatedProduct");
 
-describe('Testa o controller do product', () => {
+describe("Testa o controller do product", () => {
   afterEach(() => {
     sinon.restore();
   });
 
-  describe('Testa o controller findAll', () => {
-    it('retorna todos os produtos', async () => {
+  describe("Testa o controller findAll", () => {
+    it("retorna todos os produtos", async () => {
       const req = {};
       const res = {
         status: sinon.stub().returnsThis(),
         json: sinon.stub(),
       };
 
-      sinon.stub(ProductService, 'findAllProducts').resolves(findAllProduct);
+      sinon.stub(ProductService, "findAllProducts").resolves(findAllProduct);
 
       await ProductController.findAll(req, res);
 
@@ -33,8 +35,8 @@ describe('Testa o controller do product', () => {
     });
   });
 
-  describe('Testa o controller findById', () => {
-    it('retorna um produto pelo id', async () => {
+  describe("Testa o controller findById", () => {
+    it("retorna um produto pelo id", async () => {
       const req = {
         params: {
           id: 1,
@@ -47,7 +49,7 @@ describe('Testa o controller do product', () => {
 
       const next = sinon.stub();
 
-      sinon.stub(ProductService, 'findProductById').resolves(findAllProduct[0]);
+      sinon.stub(ProductService, "findProductById").resolves(findAllProduct[0]);
 
       await ProductController.findById(req, res, next);
 
@@ -56,7 +58,7 @@ describe('Testa o controller do product', () => {
       expect(next).to.not.be.called;
     });
 
-    it('retorna uma mesagem de erro quando o produto não é encontrado', async () => {
+    it("retorna uma mesagem de erro quando o produto não é encontrado", async () => {
       const req = {
         params: {
           id: 4,
@@ -69,18 +71,18 @@ describe('Testa o controller do product', () => {
 
       const next = sinon.stub();
 
-      sinon.stub(ProductService, 'findProductById').resolves(undefined);
+      sinon.stub(ProductService, "findProductById").resolves(undefined);
 
       await ProductController.findById(req, res, next);
 
       expect(next).to.be.calledWith({
         status: 404,
-        message: 'Product not found',
+        message: "Product not found",
       });
     });
 
-    describe('Testa o controller insert', () => {
-      it('insere um novo produto', async () => {
+    describe("Testa o controller insert", () => {
+      it("insere um novo produto", async () => {
         const req = {
           body: {
             name: mockNewProduct.name,
@@ -91,7 +93,7 @@ describe('Testa o controller do product', () => {
           json: sinon.stub(),
         };
 
-        sinon.stub(ProductService, 'createProduct').resolves(mockNewProduct.id);
+        sinon.stub(ProductService, "createProduct").resolves(mockNewProduct.id);
 
         await ProductController.insert(req, res);
 
@@ -99,7 +101,7 @@ describe('Testa o controller do product', () => {
         expect(res.json).to.have.been.calledWith(mockNewProduct);
       });
 
-      it('retorna uma mensagem de erro quando o nome do produto é inválido', async () => {
+      it("retorna uma mensagem de erro quando o nome do produto é inválido", async () => {
         const req = {
           body: {},
         };
@@ -110,13 +112,15 @@ describe('Testa o controller do product', () => {
 
         await validatedProductName(req, res);
         expect(res.status).to.have.been.calledWith(400);
-        expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+        expect(res.json).to.have.been.calledWith({
+          message: '"name" is required',
+        });
       });
 
-      it('retorna uma mensagem de erro quando o nome do produto é menor que 5 caracteres', async () => {
+      it("retorna uma mensagem de erro quando o nome do produto é menor que 5 caracteres", async () => {
         const req = {
           body: {
-            name: 'x',
+            name: "x",
           },
         };
         const res = {

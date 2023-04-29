@@ -7,19 +7,26 @@ class ProductModel {
   }
 
   static async getProductById(id) {
-    const [product] = await connection.execute('SELECT * FROM products WHERE id = ?;', [id]);
+    const [product] = await connection.execute(
+      'SELECT * FROM products WHERE id = ?;',
+      [id],
+    );
     return product[0];
   }
 
   static async createProduct(name) {
     const [{ insertId }] = await connection.execute(
-      'INSERT INTO products (name) VALUES (?);', [name],
+      'INSERT INTO products (name) VALUES (?);',
+      [name],
     );
     return insertId;
   }
 
   static async updateProduct(id, name) {
-    await connection.execute('UPDATE products SET name = ? WHERE id = ?;', [name, id]);
+    await connection.execute('UPDATE products SET name = ? WHERE id = ?;', [
+      name,
+      id,
+    ]);
   }
 
   static async deleteProduct(id) {
