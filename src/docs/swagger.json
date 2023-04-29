@@ -4,6 +4,7 @@
     "title": "API Storage Manage",
     "description": "API created for the storage management product",
     "contact": {
+      "name": "Walber Vaz",
       "email": "wvs.walber@gmail.com"
     },
     "version": "1.0.0"
@@ -121,6 +122,139 @@
             }
           }
         }
+      },
+      "post": {
+        "summary": "Cadastra um produto",
+        "description": "Essa rota e responsavel por cadastrar um produto",
+        "tags": ["Products"],
+        "requestBody": {
+          "description": "Objeto com os dados do produto",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewProduct"
+              },
+              "examples": {
+                "product": {
+                  "value": {
+                    "name": "Produto 1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Products"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nome e requerido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductNotName"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Nome deve ter 5 caracteres",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NameFiveCharacters"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta um produto cadastrado",
+        "description": "Essa rota e responsavel por deletar um produto cadastrado",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Products"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductNotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/search?q={name}": {
+      "get": {
+        "summary": "Busca um produto cadastrado",
+        "description": "Essa rota e responsavel por buscar um produto cadastrado",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Nome do produto",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Products"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductNotFound"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -145,6 +279,32 @@
           "message": {
             "type": "string",
             "description": "Product not found"
+          }
+        }
+      },
+      "NewProduct": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ProductNotName": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Name is required"
+          }
+        }
+      },
+      "NameFiveCharacters": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Name length must be at least 5 characters long"
           }
         }
       }
